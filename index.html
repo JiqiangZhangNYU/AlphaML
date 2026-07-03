@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>AlphaML · Model Performance</title>
+<title>AlphaML · 模型表现</title>
 <style>
   :root{
     --bg:#0e1216; --panel:#151b22; --panel2:#1a212a; --line:#232c38;
@@ -29,87 +29,87 @@
 
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1180px;margin:0 auto;padding:32px 24px 72px}
+    font-size:17.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1240px;margin:0 auto;padding:36px 26px 80px}
   a{color:var(--accent)}
 
   header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;
-    gap:16px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}
-  .brand{display:flex;flex-direction:column;gap:6px}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    gap:16px;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px}
+  .brand{display:flex;flex-direction:column;gap:8px}
+  .eyebrow{font-family:var(--mono);font-size:13.5px;letter-spacing:.14em;
     color:var(--accent)}
-  h1{font-size:26px;font-weight:600;letter-spacing:-.01em;margin:0;text-wrap:balance}
-  .sub{color:var(--ink-dim);font-size:13.5px;max-width:60ch}
-  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);text-align:right;line-height:1.7}
+  h1{font-size:34px;font-weight:600;letter-spacing:-.01em;margin:0;text-wrap:balance}
+  .sub{color:var(--ink-dim);font-size:16px;max-width:52em;line-height:1.7}
+  .meta{font-family:var(--mono);font-size:14px;color:var(--ink-faint);text-align:right;line-height:1.8}
 
-  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-  .tab{font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;color:var(--ink-dim);
-    background:var(--panel);border:1px solid var(--line);border-radius:7px;
-    padding:8px 14px;cursor:pointer;transition:.15s;display:flex;gap:9px;align-items:baseline}
-  .tab .p{color:var(--ink-faint);font-size:11px}
+  .tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}
+  .tab{font-family:var(--mono);font-size:15px;letter-spacing:.02em;color:var(--ink-dim);
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:10px 16px;cursor:pointer;transition:.15s;display:flex;gap:10px;align-items:baseline}
+  .tab .p{color:var(--ink-faint);font-size:13px}
   .tab:hover{color:var(--ink);border-color:var(--accent)}
   .tab.on{color:var(--bg);background:var(--accent);border-color:var(--accent);font-weight:600}
   .tab.on .p{color:var(--bg);opacity:.7}
   .tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  .board{display:grid;grid-template-columns:1fr;gap:20px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+  .board{display:grid;grid-template-columns:1fr;gap:22px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}
   .card-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
-    padding:16px 20px 0}
-  .card-h h2{font-size:14px;font-weight:600;margin:0;letter-spacing:.01em}
-  .card-h .note{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+    padding:18px 22px 0}
+  .card-h h2{font-size:19px;font-weight:600;margin:0;letter-spacing:.01em}
+  .card-h .note{font-family:var(--mono);font-size:13.5px;color:var(--ink-faint)}
 
   /* chart */
-  .chartwrap{padding:12px 12px 6px;position:relative}
+  .chartwrap{padding:14px 14px 6px;position:relative}
   svg.chart{display:block;width:100%;height:auto}
   .gridline{stroke:var(--grid);stroke-width:1}
-  .axis-lbl{fill:var(--ink-faint);font-family:var(--mono);font-size:10px}
+  .axis-lbl{fill:var(--ink-faint);font-family:var(--mono);font-size:13px}
   .zeroline{stroke:var(--ink-faint);stroke-width:1;stroke-dasharray:2 3;opacity:.6}
   path.series{fill:none;stroke-width:1.4;opacity:.9;transition:opacity .12s,stroke-width .12s}
   path.series.dim{opacity:.12}
   path.series.hot{stroke-width:2.8;opacity:1}
-  .endchip{font-family:var(--mono);font-size:10px}
+  .endchip{font-family:var(--mono);font-size:13px}
   .crosshair{stroke:var(--ink-faint);stroke-width:1;opacity:.5}
   .tip{position:absolute;pointer-events:none;background:var(--panel2);border:1px solid var(--line);
-    border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:11px;color:var(--ink);
-    box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transition:opacity .1s;min-width:150px;z-index:5}
-  .tip .td{color:var(--ink-faint);margin-bottom:4px}
-  .tip .row{display:flex;justify-content:space-between;gap:12px}
-  .tip .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+    border-radius:9px;padding:10px 12px;font-family:var(--mono);font-size:14px;color:var(--ink);
+    box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transition:opacity .1s;min-width:170px;z-index:5}
+  .tip .td{color:var(--ink-faint);margin-bottom:5px}
+  .tip .row{display:flex;justify-content:space-between;gap:14px;line-height:1.7}
+  .tip .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:middle}
 
   /* legend */
-  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:6px 20px 18px}
-  .lg{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;
-    color:var(--ink-dim);cursor:pointer;padding:2px 4px;border-radius:5px;transition:.12s}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:8px 22px 20px}
+  .lg{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:14px;
+    color:var(--ink-dim);cursor:pointer;padding:3px 6px;border-radius:6px;transition:.12s}
   .lg:hover{color:var(--ink);background:var(--panel2)}
   .lg.off{opacity:.35}
-  .lg .sw{width:11px;height:11px;border-radius:3px;flex:none}
+  .lg .sw{width:13px;height:13px;border-radius:3px;flex:none}
   .lg.pin{color:var(--ink);font-weight:600}
 
   /* table */
-  .tablewrap{overflow-x:auto;padding:4px 6px 12px}
-  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
-  th,td{padding:9px 12px;text-align:right;white-space:nowrap}
+  .tablewrap{overflow-x:auto;padding:6px 8px 14px}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:15.5px}
+  th,td{padding:12px 15px;text-align:right;white-space:nowrap}
   th:first-child,td:first-child{text-align:left}
-  thead th{color:var(--ink-faint);font-weight:500;font-size:11px;letter-spacing:.04em;
-    text-transform:uppercase;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+  thead th{color:var(--ink-faint);font-weight:500;font-size:13.5px;letter-spacing:.03em;
+    border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
   thead th:hover{color:var(--ink)}
   thead th.sortby{color:var(--accent)}
   tbody tr{border-bottom:1px solid var(--grid);cursor:pointer;transition:background .1s}
   tbody tr:hover{background:var(--panel2)}
   tbody tr.hot{background:var(--panel2)}
   td.num{font-variant-numeric:tabular-nums}
-  .mname{display:flex;align-items:center;gap:8px}
-  .mname .sw{width:10px;height:10px;border-radius:3px;flex:none}
-  .mname .tag{font-size:9px;letter-spacing:.05em;color:var(--ink-faint);border:1px solid var(--line);
-    border-radius:4px;padding:1px 5px;text-transform:uppercase}
+  .mname{display:flex;align-items:center;gap:9px}
+  .mname .sw{width:12px;height:12px;border-radius:3px;flex:none}
+  .mname .tag{font-size:12px;letter-spacing:.03em;color:var(--ink-faint);border:1px solid var(--line);
+    border-radius:5px;padding:2px 7px}
   .pos{color:var(--pos)} .neg{color:var(--neg)}
   .bar{position:relative}
-  .bar .fill{position:absolute;top:50%;transform:translateY(-50%);height:15px;border-radius:3px;opacity:.22;right:12px}
+  .bar .fill{position:absolute;top:50%;transform:translateY(-50%);height:18px;border-radius:3px;opacity:.22;right:15px}
   .bar span{position:relative}
-  .foot{color:var(--ink-faint);font-size:12px;font-family:var(--mono);margin-top:26px;
-    border-top:1px solid var(--line);padding-top:16px;line-height:1.8}
-  @media (max-width:640px){ h1{font-size:21px} .meta{text-align:left} }
+  .foot{color:var(--ink-faint);font-size:14.5px;font-family:var(--mono);margin-top:30px;
+    border-top:1px solid var(--line);padding-top:18px;line-height:1.9}
+  @media (max-width:640px){ h1{font-size:27px} .meta{text-align:left} body{font-size:16px} }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -119,10 +119,10 @@
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <div class="eyebrow">AlphaML · Commodity Long–Short</div>
-      <h1>Model Performance by Feature Set</h1>
-      <div class="sub">Out-of-sample net-value curves and risk metrics for every model, on each
-        feature panel. Cross-sectional 10-1 long/short, 4&nbsp;bps cost. Selection was never on test.</div>
+      <div class="eyebrow">AlphaML · 商品期货多空</div>
+      <h1>各特征集下的模型表现</h1>
+      <div class="sub">每个特征面板上所有模型的样本外净值曲线与风险指标。横截面 10-1 多空组合,
+        单边 4&nbsp;bps 成本。选优只看验证集,从不看测试集。</div>
     </div>
     <div class="meta" id="meta"></div>
   </header>
@@ -132,7 +132,7 @@
   <div class="board">
     <section class="card">
       <div class="card-h">
-        <h2>Cumulative net value <span style="color:var(--ink-faint);font-weight:400">(growth of 1)</span></h2>
+        <h2>累计净值 <span style="color:var(--ink-faint);font-weight:400">(初始 = 1)</span></h2>
         <div class="note" id="chartnote"></div>
       </div>
       <div class="chartwrap" id="chartwrap"></div>
@@ -141,8 +141,8 @@
 
     <section class="card">
       <div class="card-h">
-        <h2>Risk &amp; return</h2>
-        <div class="note">annualized · click a row to highlight</div>
+        <h2>风险与收益</h2>
+        <div class="note">年化 · 点击某行高亮</div>
       </div>
       <div class="tablewrap"><table id="tbl"></table></div>
     </section>
@@ -163,9 +163,9 @@ const COLORS = {
   mlmft:"#f08a5d", dmfm:"#e0566a"
 };
 const EMPH = new Set(["stack_val","stack_eq","alphaglass"]);
-const TAG = {stack_val:"ens",stack_eq:"ens",alphaglass:"flagship",avg:"base",linear:"base",
-  linear_pos:"base",factorvae:"ported",mlstockrec:"ported",ldfm:"ported",mcigru:"ported",
-  factorgcl:"ported",dcap:"ported",mlmft:"ported",dmfm:"ported"};
+const TAG = {stack_val:"集成",stack_eq:"集成",alphaglass:"头牌",avg:"基准",linear:"基准",
+  linear_pos:"基准",factorvae:"移植",mlstockrec:"移植",ldfm:"移植",mcigru:"移植",
+  factorgcl:"移植",dcap:"移植",mlmft:"移植",dmfm:"移植"};
 const ORDER = ["stack_val","stack_eq","alphaglass","avg","linear","linear_pos",
   "factorvae","mlstockrec","ldfm","mcigru","factorgcl","dcap","mlmft","dmfm"];
 const LABEL = {stack_val:"stack·val",stack_eq:"stack·eq",linear_pos:"linear+"};
@@ -200,8 +200,8 @@ function render(){
   buildTabs();
   const s = DATA.sets[active];
   document.getElementById("meta").innerHTML =
-    `OOS ${s.test_start} → ${s.test_end}<br>${models().length} models · 60 assets · daily`;
-  document.getElementById("chartnote").textContent = `test ${s.test_start} → ${s.test_end}`;
+    `样本外 ${s.test_start} → ${s.test_end}<br>${models().length} 个模型 · 60 品种 · 日频`;
+  document.getElementById("chartnote").textContent = `测试期 ${s.test_start} → ${s.test_end}`;
   drawChart(); drawLegend(); drawTable();
 }
 
@@ -282,14 +282,14 @@ function drawLegend(){
     L.appendChild(el);
   });
   const hint=document.createElement("div"); hint.className="lg"; hint.style.cursor="default";
-  hint.style.color="var(--ink-faint)"; hint.textContent="click=pin · shift-click=hide";
+  hint.style.color="var(--ink-faint)"; hint.textContent="点击=固定 · shift+点击=隐藏";
   L.appendChild(hint);
 }
 
 function drawTable(){
   const s=DATA.sets[active], T=document.getElementById("tbl");
-  const cols=[["model","model"],["sharpe","Sharpe"],["ann_return","ann ret"],
-    ["ann_vol","ann vol"],["max_dd","max DD"],["hit","hit"]];
+  const cols=[["model","模型"],["sharpe","夏普"],["ann_return","年化收益"],
+    ["ann_vol","年化波动"],["max_dd","最大回撤"],["hit","胜率"]];
   const rows=models().map(m=>({m,...s.models[m]}));
   rows.sort((a,b)=> sortKey==="model" ? (a.m<b.m?-1:1)*sortDir : (a[sortKey]-b[sortKey])*sortDir);
   const maxShr=Math.max(...rows.map(r=>Math.abs(r.sharpe)),0.1);
@@ -313,11 +313,10 @@ function drawTable(){
 }
 
 document.getElementById("foot").innerHTML =
-  `Net value = cumulative product of daily net long/short returns on the OOS test window. `+
-  `Sharpe / return / vol annualized ×252 / √252. <span class="pos">ported</span> models `+
-  `(factorvae … dmfm) transferred from reports_collect via /transfer; run at tune-speed epochs with `+
-  `f265-tuned or default params. Weak OOS ≈ 0 / negative is expected on 60-asset daily faint signals — `+
-  `the point is relative comparison under one protocol, not absolute levels.`;
+  `净值 = 样本外测试期内每日多空净收益的累乘。夏普 / 收益 / 波动按 ×252、√252 年化。`+
+  `<span class="pos">移植</span>类模型(factorvae … dmfm)经 /transfer 从 reports_collect 迁移而来,`+
+  `以 tune-速 epochs、f265 调优或默认参数运行。60 品种日频弱信号下样本外 ≈ 0 / 为负属正常 —— `+
+  `重点是同一协议下的相对对照,而非绝对水平。`;
 
 render();
 </script>
