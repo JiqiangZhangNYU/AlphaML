@@ -233,10 +233,11 @@ function drawChart(){
     const w = EMPH.has(m)?2.1:1.4;
     g+=`<path class="series${hot?' hot':''}${dim?' dim':''}" d="M${pts}" stroke="${col(m)}" style="stroke-width:${hot?2.8:w}"/>`;
   });
-  const finals = ms.map(m=>({m,v:s.models[m].nav.at(-1).v})).sort((a,b)=>b.v-a.v);
-  finals.slice(0,4).forEach(({m,v})=>{ if(hover&&hover!==m)return;
-    g+=`<circle cx="${x(N-1).toFixed(1)}" cy="${y(v).toFixed(1)}" r="2.6" fill="${col(m)}"/>`;
-    g+=`<text class="endchip" x="${x(N-1)+6}" y="${y(v)+3}" fill="${col(m)}">${lab(m)}</text>`; });
+  // endpoint dot only for the hovered line (no on-curve strategy labels — too busy)
+  if(hover && ms.includes(hover)){
+    const v=s.models[hover].nav.at(-1).v;
+    g+=`<circle cx="${x(N-1).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3" fill="${col(hover)}"/>`;
+  }
 
   document.getElementById("chartwrap").innerHTML =
     `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
@@ -264,9 +265,11 @@ function wireHover(s,W,PL,PR,N,x){
 }
 
 function drawLegend(){
-  const L=document.getElementById("legend");
+  const L=document.getElementById("legend"), s=DATA.sets[active];
   L.innerHTML="";
-  models().forEach(m=>{
+  // order by final net value, largest first
+  const ordered = models().slice().sort((a,b)=> s.models[b].nav.at(-1).v - s.models[a].nav.at(-1).v);
+  ordered.forEach(m=>{
     const on = sel.has(m), muted = sel.size && !on;
     const el=document.createElement("div");
     el.className="lg"+(muted?" off":"")+(on?" pin":"");
