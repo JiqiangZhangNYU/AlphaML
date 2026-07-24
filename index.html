@@ -158,15 +158,15 @@ const COLORS = {
   avg:"#8593a6", linear:"#6d9fe0", linear_pos:"#4f7fd0",
   factorvae:"#e06a8b", mlstockrec:"#c77dff",
   factorgcl:"#5fd08a", dcap:"#c9d05a",
-  mlmft:"#f08a5d", dmfm:"#e0566a", fastfm:"#7a86ff", alphaportfolio:"#5ac8e0"
+  mlmft:"#f08a5d", dmfm:"#e0566a", fastfm:"#7a86ff"
 };
 const EMPH = new Set(["stack_val","stack_eq","alphaglass"]);
 const TAG = {stack_val:"集成",stack_eq:"集成",alphaglass:"头牌",avg:"基准",linear:"基准",
   linear_pos:"基准",factorvae:"移植",mlstockrec:"移植",
-  factorgcl:"移植",dcap:"移植",mlmft:"移植",dmfm:"移植",fastfm:"移植",alphaportfolio:"移植"};
+  factorgcl:"移植",dcap:"移植",mlmft:"移植",dmfm:"移植",fastfm:"移植"};
 const ORDER = ["stack_val","stack_eq","alphaglass","avg","linear","linear_pos",
-  "factorvae","mlstockrec","factorgcl","dcap","mlmft","dmfm","fastfm","alphaportfolio"];
-const LABEL = {stack_val:"stack·val",stack_eq:"stack·eq",linear_pos:"linear+",alphaportfolio:"alphaPF"};
+  "factorvae","mlstockrec","factorgcl","dcap","mlmft","dmfm","fastfm"];
+const LABEL = {stack_val:"stack·val",stack_eq:"stack·eq",linear_pos:"linear+"};
 const lab = m => LABEL[m]||m;
 const col = m => COLORS[m]||"#8593a6";
 const fmt = (x,d=2)=> (x>=0?"+":"")+x.toFixed(d);
